@@ -1,0 +1,27 @@
+{
+  "name": "genkit",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx genkit start -- tsx --watch src/genkit/main.ts"
+  },
+  "dependencies": {
+    "@genkit-ai/dev-local-vectorstore": "^1.39.0",
+    "@genkit-ai/express": "^1.39.0",
+    "@genkit-ai/google-genai": "^1.39.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "genkit": "^1.39.0",
+    "llm-chunk": "^0.0.1",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "@types/pdf-parse": "^1.1.5",
+    "tsx": "^4.0.0"
+  }
+}
