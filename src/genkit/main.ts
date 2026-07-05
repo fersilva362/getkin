@@ -10,12 +10,13 @@ import { readFile } from "fs/promises";
 import { chunk } from "llm-chunk";
 import { Document } from "genkit/retriever";
 import devLocalVectorstore from "@genkit-ai/dev-local-vectorstore";
+import "dotenv/config";
 
 const ai = genkit({
   plugins: [
     // googleAI provides the gemini-embedding-001 embedder
     googleAI({
-      apiKey: "AQ.Ab8RN6L3JG_6ngOTY_PKeSMJP-wNCFsYQ99q96xsJru8afXo_A",
+      apiKey: process.env.GOOGLE_API_KEY,
     }),
 
     // the local vector store requires an embedder to translate from text to vector
