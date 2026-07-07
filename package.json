@@ -5,10 +5,10 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "src/main.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx genkit start -- tsx --watch src/genkit/main.ts"
+    "start": "npx tsx --watch src/index.ts"
   },
   "dependencies": {
     "@genkit-ai/dev-local-vectorstore": "^1.39.0",

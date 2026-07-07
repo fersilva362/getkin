@@ -81,10 +81,12 @@ export const menuRetriever = devLocalRetrieverRef("menuQA");
 export const menuQAFlow = ai.defineFlow(
   {
     name: "retrieve documents",
-    inputSchema: z.string(),
+    inputSchema: z.object({
+      query: z.string(),
+    }),
     outputSchema: z.string(),
   },
-  async (query: string): Promise<string> => {
+  async ({ query }): Promise<string> => {
     const docs = await ai.retrieve({
       retriever: menuRetriever,
       query,
@@ -104,7 +106,7 @@ Do not add or change items on the menu.
 Question: ${query}`,
       docs,
     });
-
+    console.log(text);
     return text;
   },
 );

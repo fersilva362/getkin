@@ -1,3 +1,4 @@
 .env
 __db_menuQA.json
 node_modules/
+.genkit/
