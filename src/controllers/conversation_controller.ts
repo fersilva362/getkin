@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { myContacts } from "../data/data_contacts";
+import { randomUUID } from "node:crypto";
 
 export const fetchConversationByUserId = async (
   req: Request,
@@ -26,3 +27,47 @@ export const fetchConversationByUserId = async (
     res.status(500).json({ error: "Failure to fetch conversations" });
   }
 };
+
+export const addMessageToConversation = async (req: Request, res: Response) => {
+  const uuid = randomUUID();
+  const { conversation_id } = req.params;
+  const { senderId, content } = req.body;
+  const new_message = {
+    id: uuid,
+    content: content,
+    sender_id: senderId,
+    created_at: new Date().toISOString(),
+  };
+
+  const targetContact = myContacts.find(
+    (c) => c.conversation_id === conversation_id,
+  );
+
+  if (targetContact) {
+    targetContact.messages.push(new_message);
+    targetContact.last_message = new_message.content;
+    targetContact.last_message_time = new_message.created_at;
+    res.send("tutto ben");
+  }
+  res.send("tuto");
+};
+
+/* export const saveMessage = async (
+  conversationId: string,
+  senderId: string,
+  content: string
+) => {
+  console.log(
+    `conversationId: ${conversationId} , senderId: ${senderId}, content :${content}`
+  );
+  try {
+    const result = await pool.query(
+      `INSERT INTO messages (conversation_id,sender_id ,content ) VALUES ($1,$2,$3) RETURNING *`,
+      [conversationId, senderId, content]
+    );
+    console.log(result.rows[0]);
+    return result.rows[0];
+  } catch (error) {
+    throw new Error("faile to save ");
+  }
+}; */
