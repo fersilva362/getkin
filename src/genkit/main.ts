@@ -94,7 +94,7 @@ export const menuQAFlow = ai.defineFlow(
     });
 
     const { text } = await ai.generate({
-      model: googleAI.model("gemini-flash-latest"),
+      model: googleAI.model("gemini-flash-lite-latest"),
       prompt: `
 You are acting as a helpful AI assistant that can answer
 questions about the menu.pdf file.

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { myContacts } from "../data/data_contacts";
 import { randomUUID } from "node:crypto";
+import { menuQAFlow } from "../genkit/main";
 
 export const fetchConversationByUserId = async (
   req: Request,
@@ -47,9 +48,10 @@ export const addMessageToConversation = async (req: Request, res: Response) => {
     targetContact.messages.push(new_message);
     targetContact.last_message = new_message.content;
     targetContact.last_message_time = new_message.created_at;
-    res.send("tutto ben");
+    res.status(200).json({ message: "success" });
+  } else {
+    res.status(400).send(" it seems that you dont have the contact");
   }
-  res.send("tuto");
 };
 
 /* export const saveMessage = async (

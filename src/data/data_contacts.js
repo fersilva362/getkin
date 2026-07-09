@@ -1,4 +1,4 @@
-// Contacts of client after been logged.
+// Contacts of client after been logged. I am client with sender_id=96
 export const myContacts = [
   {
     conversation_id: "40ac9d93-9b08-45f4-8bdf-7d2fd55c5e00",
