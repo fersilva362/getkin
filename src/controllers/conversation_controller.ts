@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { myContacts } from "../data/data_contacts";
 import { randomUUID } from "node:crypto";
 import { menuQAFlow } from "../genkit/main";
+import { summarize_conversation_by_id } from "../genkit/summarize_conversations";
 
 export const fetchConversationByUserId = async (
   req: Request,
@@ -23,7 +24,32 @@ export const fetchConversationByUserId = async (
     }
 
     const conversations = contact_by_conversation.messages;
+
     res.status(200).json(conversations);
+  } catch (error) {
+    res.status(500).json({ error: "Failure to fetch conversations" });
+  }
+};
+
+export const summarizeConversation = async (req: Request, res: Response) => {
+  const { conversation_id } = req.params;
+  try {
+    const contact_by_conversation = [...myContacts].find(
+      (msg) => msg.conversation_id === conversation_id,
+    );
+    console.log(contact_by_conversation);
+
+    if (!contact_by_conversation) {
+      res.status(400).json({ messsage: "Not found conversations" });
+      return;
+    }
+    const textSummarized = await summarize_conversation_by_id(
+      contact_by_conversation,
+    );
+
+    console.log(textSummarized);
+
+    res.status(200).json({ data: textSummarized });
   } catch (error) {
     res.status(500).json({ error: "Failure to fetch conversations" });
   }

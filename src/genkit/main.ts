@@ -12,7 +12,7 @@ import { Document } from "genkit/retriever";
 import devLocalVectorstore from "@genkit-ai/dev-local-vectorstore";
 import "dotenv/config";
 
-const ai = genkit({
+export const ai = genkit({
   plugins: [
     // googleAI provides the gemini-embedding-001 embedder
     googleAI({

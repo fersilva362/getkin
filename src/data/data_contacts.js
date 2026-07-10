@@ -10,15 +10,51 @@ export const myContacts = [
     messages: [
       {
         id: "a35616be-40b8-428a-a444-44647715b04d",
-        content: "Soy fer",
+        content:
+          "Hey Jordan! You got a second? I wanted to check in about the shift handover",
         sender_id: "96",
         created_at: "2025-12-02T02:44:01.258Z",
       },
       {
         id: "20ceba06-d274-4088-b4fe-db33996adc74",
-        content: "Yes, it is nice",
+        content:
+          "Hey Alex! Yeah, perfect timing, Iam just wrapping up my logs. What is up?",
         sender_id: "99",
         created_at: "2026-01-19T19:21:00.088Z",
+      },
+      {
+        id: "f47ac10b-52d3-4e8c-8da2-321151bb2b91",
+        content:
+          "Just wanted to see if there are any critical issues left over from the afternoon run that I need to keep an eye on tonight.",
+        sender_id: "96",
+        created_at: "2026-01-19T19:22:15.120Z",
+      },
+      {
+        id: "7cb4a123-e124-4b55-a558-883311ffcc42",
+        content:
+          "The main assembly line had a minor sensor glitch around 4 PM, but maintenance cleared it. Just monitor the calibration logs on machine 4.",
+        sender_id: "99",
+        created_at: "2026-01-19T19:24:30.455Z",
+      },
+      {
+        id: "bc110aef-9011-477a-bd12-f155bb90ee23",
+        content:
+          "Got it, monitor machine 4. Anything else? How is the inventory looking for the next batch?",
+        sender_id: "96",
+        created_at: "2026-01-19T19:25:50.112Z",
+      },
+      {
+        id: "cd9901fe-11aa-42bb-cc89-882266aadd34",
+        content:
+          "All restocked and ready to go. The handover report is signed off on the system. Have a good shift, Alex!",
+        sender_id: "99",
+        created_at: "2026-01-19T19:27:12.890Z",
+      },
+      {
+        id: "de5567ab-33bb-4cfa-dd11-112233bbaa55",
+        content: "Awesome, thanks Jordan. Get some rest!",
+        sender_id: "96",
+        created_at: "2026-01-19T19:28:05.003Z",
       },
     ],
   },
