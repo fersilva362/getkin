@@ -3,6 +3,7 @@ import {
   addContact,
   fetchContacts,
 } from "../controllers/contact_controller.ts";
+import { auth_by_express } from "../middleware/express_authorization.ts";
 
 const contact_router = Router();
 
