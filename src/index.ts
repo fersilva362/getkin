@@ -5,6 +5,7 @@ import { expressHandler } from "@genkit-ai/express";
 import contact_router from "./routes/contact_routes";
 import conversation_route from "./routes/conversations_routes";
 import { summarizer_route } from "./routes/summarize_routes";
+import { db_connection } from "./config/db_connection";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/", contact_router);
 app.use("/", conversation_route);
 app.use("/", summarizer_route);
 
+db_connection();
 app.listen(8080, () => {
   console.log("Express server listening on http://localhost:8080");
 });

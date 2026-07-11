@@ -21,7 +21,9 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "genkit": "^1.39.0",
+    "jsonwebtoken": "^9.0.3",
     "llm-chunk": "^0.0.1",
+    "mongoose": "^9.7.4",
     "pdf-parse": "^2.4.5"
   },
   "devDependencies": {
