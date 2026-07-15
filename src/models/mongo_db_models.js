@@ -13,6 +13,12 @@ const MessageSchema = mongooseSchema({
   },
 });
 
+export const userDbSchema = new mongooseSchema({
+  contact_email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  username: { type: String, required: true },
+});
+
 export const ContactSchema = new mongooseSchema({
   conversation_id: { type: String, required: true, unique: true },
   contact_email: { type: String, required: true, unique: true },
@@ -28,26 +34,4 @@ export const ContactSchema = new mongooseSchema({
 
 export const MyContactModel = mongoose.model("ContactSchema", ContactSchema);
 export const MyMessageModel = mongoose.model("MessageSchema", MessageSchema);
-
-/* 
-{
-    conversation_id: "8b5e6814-f6be-4868-9a3f-51f75b90fb75",
-    contact_email: "pepe1@",
-    participant_name: "mariela",
-    last_message: "male",
-    last_message_time: "2026-01-19T15:59:23.863Z",
-    messages: [
-      {
-        id: "unique-msg-id-001",
-        content: "hola mariela",
-        sender_id: "96",
-        created_at: "2026-01-19T15:50:00.000Z",
-      },
-      {
-        id: "unique-msg-id-002",
-        content: "male",
-        sender_id: "102",
-        created_at: "2026-01-19T15:59:23.863Z",
-      },
-    ],
-  }, */
+export const MyUserModel = mongoose.model("userDbSchema", userDbSchema);
