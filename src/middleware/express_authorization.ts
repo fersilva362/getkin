@@ -21,15 +21,18 @@ export const auth_verification = (
   res: Response,
   next: NextFunction,
 ): void => {
-  const auth_header = req.headers["authorization"]?.split(" ")[1];
+  const auth_header = req.headers["authorization"];
+  const token = req.headers["authorization"]?.split(" ")[1];
 
   if (!auth_header) {
-    res.status(400).send("empty headers");
-  }
-  const user_data = JWT.verify(auth_header!, JWT_SECRET);
-  if (!user_data || typeof user_data == "string") {
-    res.status(400).send("error in headers");
+    res.status(401).json({ message: "Access denied. No token provided." });
     return;
   }
+  const user_data = JWT.verify(token!, JWT_SECRET);
+  if (!user_data || typeof user_data == "string") {
+    res.status(401).json({ message: "Invalid or expired token." });
+    return;
+  }
+  console.log(user_data);
   next();
 };
