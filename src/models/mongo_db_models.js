@@ -22,6 +22,7 @@ export const userDbSchema = new mongooseSchema({
 export const ContactSchema = new mongooseSchema({
   conversation_id: { type: String, required: true, unique: true },
   contact_email: { type: String, required: true, unique: true },
+  owner: { type: String, required: true, unique: true },
   participant_name: { type: String, required: true },
   last_message: { type: String, required: true, default: " Not messages yet" },
   last_message_time: {
