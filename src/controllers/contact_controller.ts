@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
-import { myContacts } from "../data/data_contacts";
 import { randomUUID } from "node:crypto";
-import mongoose from "mongoose";
-import { ContactSchema, MyContactModel } from "../models/mongo_db_models.js";
-import { UUID } from "node:crypto";
+import { MyContactModel } from "../models/mongo_db_models.js";
 const user_id = "6a56b5b4fd0d20e3de9fc433";
 export const fetchContacts = async (req: Request, res: Response) => {
   try {
@@ -20,7 +17,6 @@ export const fetchContacts = async (req: Request, res: Response) => {
     res.status(500).json({ error });
   }
 };
-
 export const addContact = async (req: Request, res: Response) => {
   const uuid = randomUUID();
   //Assume que el usuario existe en la base de datos (ya tiene su propio userID y aca solo lo busco agregar a mi contactos)

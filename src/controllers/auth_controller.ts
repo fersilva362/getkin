@@ -5,7 +5,6 @@ import { MyUserModel } from "../models/mongo_db_models";
 import bcrypt from "bcrypt";
 
 const JWT_SECRET = process.env.SECRET_JWT_KEY || "nada";
-const SALT_ROUND = 10;
 
 export const auth_login = async (req: Request, res: Response) => {
   const { contactEmail, password } = req.body;

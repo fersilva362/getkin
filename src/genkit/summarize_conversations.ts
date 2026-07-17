@@ -9,8 +9,42 @@ const ai = genkit({
     }),
   ],
 });
+
+const message_schema = z.object({
+  id: z.string().optional(),
+  sender_id: z.string().describe("Identifier of who sent the message"),
+  created_at: z.string().optional(),
+  content: z.string(),
+});
+
+const input_schema = z.object({
+  owner: z.string().optional(),
+  participant_name: z.string().optional(),
+  messages: z.array(message_schema),
+});
+
+const output_schema = z.object({
+  summary: z
+    .string()
+    .describe("A concise 2-3 sentence  of the overall conversation"),
+  actions: z
+    .array(
+      z.object({
+        task: z.string(),
+        responsable: z
+          .string()
+          .describe("name of personal that perform the task"),
+      }),
+    )
+    .optional(),
+  priority: z
+    .enum(["HIGH", "URGENT", "LOW"])
+    .describe("the relevance of attending this message")
+    .optional(),
+});
+
 export const summarize_conversation_by_id = ai.defineFlow(
-  {
+  /*  {
     name: "sumarize conversation by ID",
     inputSchema: z.object({
       messages: z.array(
@@ -23,13 +57,32 @@ export const summarize_conversation_by_id = ai.defineFlow(
       ),
     }),
     outputSchema: z.string(),
+  }, */
+
+  {
+    name: "sumarize conversation by ID",
+    inputSchema: input_schema,
+    outputSchema: output_schema,
   },
-  async ({ messages }) => {
-    const { text } = await ai.generate({
+  async ({ messages, owner, participant_name }) => {
+    const { output } = await ai.generate({
       model: googleAI.model("gemini-flash-lite-latest"),
-      prompt: `Summarize the content of this messages (content) with me (I am userID : 96)  ${JSON.stringify(messages)}`,
+      prompt: `Summarize these messsages for user ${owner}: ${JSON.stringify(messages)}`,
+      output: { schema: output_schema },
     });
-    console.log(text);
-    return text;
+
+    if (!output) {
+      throw new Error("Model failed to generate structured summary.");
+    }
+    console.log(output);
+    return output;
   },
 );
+
+/* conversation_id:
+  contact_email: 
+  owner: 
+  participant_name: 
+  last_message: 
+  last_message_time:
+  messages: { type: [MessageSchema], require: true, default: [] }, */

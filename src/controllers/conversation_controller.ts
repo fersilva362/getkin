@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { myContacts } from "../data/data_contacts";
 import { randomUUID } from "node:crypto";
-import { menuQAFlow } from "../genkit/main";
 import { summarize_conversation_by_id } from "../genkit/summarize_conversations";
 import { MyContactModel, MyMessageModel } from "../models/mongo_db_models";
 
@@ -47,8 +45,22 @@ export const summarizeConversation = async (req: Request, res: Response) => {
       res.status(200).json({ data: "No messages available to summarize." });
       return;
     }
+
+    const { owner, participant_name, messages } = contact_by_conversation;
+
+    const summarize_this_conversation = {
+      owner,
+      participant_name,
+      messages: messages.map(
+        (message: { content: string; sender_id: string }) => ({
+          content: message.content,
+          sender_id: message.sender_id,
+        }),
+      ),
+    };
+
     const textSummarized = await summarize_conversation_by_id(
-      contact_by_conversation,
+      summarize_this_conversation,
     );
 
     console.log(textSummarized);
@@ -85,7 +97,6 @@ export const addMessageToConversation = async (req: Request, res: Response) => {
       targetContact.messages.push(new_message);
       await targetContact.save();
       console.log(targetContact);
-
       res
         .status(200)
         .json({ message: "success message added", data: targetContact });
