@@ -1,6 +1,7 @@
 import devLocalVectorstore from "@genkit-ai/dev-local-vectorstore";
 import { googleAI } from "@genkit-ai/google-genai";
 import { genkit, z } from "genkit";
+import { menuQAFlow } from "./main";
 
 const ai = genkit({
   plugins: [
@@ -37,6 +38,7 @@ const output_schema = z.object({
       }),
     )
     .optional(),
+  evaluation: z.string().optional(),
   priority: z
     .enum(["HIGH", "URGENT", "LOW"])
     .describe("the relevance of attending this message")
@@ -44,21 +46,6 @@ const output_schema = z.object({
 });
 
 export const summarize_conversation_by_id = ai.defineFlow(
-  /*  {
-    name: "sumarize conversation by ID",
-    inputSchema: z.object({
-      messages: z.array(
-        z.object({
-          id: z.string().describe("id message"),
-          content: z.string(),
-          sender_id: z.string().describe("who is the sender of message"),
-          created_at: z.string(),
-        }),
-      ),
-    }),
-    outputSchema: z.string(),
-  }, */
-
   {
     name: "sumarize conversation by ID",
     inputSchema: input_schema,
@@ -74,7 +61,10 @@ export const summarize_conversation_by_id = ai.defineFlow(
     if (!output) {
       throw new Error("Model failed to generate structured summary.");
     }
+
+    const text_evaluation = await menuQAFlow(output);
     console.log(output);
+    output.evaluation = text_evaluation;
     return output;
   },
 );

@@ -82,31 +82,28 @@ export const menuQAFlow = ai.defineFlow(
   {
     name: "retrieve documents",
     inputSchema: z.object({
-      query: z.string(),
+      summary: z.string(),
     }),
     outputSchema: z.string(),
   },
-  async ({ query }): Promise<string> => {
+  async ({ summary }): Promise<string> => {
     const docs = await ai.retrieve({
       retriever: menuRetriever,
-      query,
+      query: summary,
       options: { k: 5 },
     });
 
     const { text } = await ai.generate({
       model: googleAI.model("gemini-flash-lite-latest"),
-      prompt: `
-You are acting as a helpful AI assistant that can answer
-questions about the menu.pdf file.
+      prompt: `You are an operational evaluator. 
+Provide a clear, 1-2 sentence evaluation of the conversation summary based on the retrieved documents.
+DO NOT use meta-phrases like "Based on the provided information" or "The document states".
+If the documents do not contain relevant shift/role information, simply state: "No official policy record found for the referenced individual.
 
-Use only the context provided to answer the question.
-If you don't know, do not make up an answer.
-Do not add or change items on the menu.
-
-Question: ${query}`,
+Question: ${summary}`,
       docs,
     });
     console.log(text);
-    return text;
+    return text.replace(/\s+/g, " ");
   },
 );
