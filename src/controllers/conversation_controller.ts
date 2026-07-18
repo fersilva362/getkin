@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
-import { summarize_conversation_by_id } from "../genkit/summarize_conversations";
-import { MyContactModel, MyMessageModel } from "../models/mongo_db_models";
-import { AuthenticatedRequest } from "../middleware/express_authorization";
+import { summarize_conversation_by_id } from "../genkit/summarize_conversations.js";
+import { MyContactModel, MyMessageModel } from "../models/mongo_db_models.js";
+import { AuthenticatedRequest } from "../middleware/express_authorization.js";
 
 //const user_id = "6a56b5b4fd0d20e3de9fc433";
 

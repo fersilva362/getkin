@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { MyUserModel } from "../models/mongo_db_models";
+import { MyUserModel } from "../models/mongo_db_models.js";
 import bcrypt from "bcrypt";
 
 const JWT_SECRET = process.env.SECRET_JWT_KEY;

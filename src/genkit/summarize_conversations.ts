@@ -1,7 +1,7 @@
 import devLocalVectorstore from "@genkit-ai/dev-local-vectorstore";
 import { googleAI } from "@genkit-ai/google-genai";
 import { genkit, z } from "genkit";
-import { menuQAFlow } from "./main";
+import { menuQAFlow } from "./main.js";
 
 const ai = genkit({
   plugins: [
