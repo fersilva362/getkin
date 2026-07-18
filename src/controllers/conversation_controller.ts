@@ -2,14 +2,21 @@ import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
 import { summarize_conversation_by_id } from "../genkit/summarize_conversations";
 import { MyContactModel, MyMessageModel } from "../models/mongo_db_models";
+import { AuthenticatedRequest } from "../middleware/express_authorization";
 
-const user_id = "6a56b5b4fd0d20e3de9fc433";
+//const user_id = "6a56b5b4fd0d20e3de9fc433";
 
 export const fetchConversationByUserId = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
 ) => {
   const { conversation_id } = req.params;
+  if (!req.user) {
+    res.status(401).json({ message: "Unauthorized user." });
+    return;
+  }
+
+  const { id: user_id } = req.user;
 
   try {
     const contact_by_conversation = await MyContactModel.findOne({
@@ -21,23 +28,37 @@ export const fetchConversationByUserId = async (
       res.status(404).json({ message: "Conversation not found." });
       return;
     }
-    const conversations = contact_by_conversation.messages;
-    res.status(200).json(conversations);
+    const messages_retrieved = contact_by_conversation.messages;
+    res.status(200).json({ data: messages_retrieved });
   } catch (error) {
     console.error("Error fetching conversation:", error);
     res.status(500).json({ message: "Failure to fetch conversation." });
   }
 };
 
-export const summarizeConversation = async (req: Request, res: Response) => {
+export const summarizeConversation = async (
+  req: AuthenticatedRequest,
+  res: Response,
+) => {
+  if (!req.user) {
+    res.status(401).json({ message: "Unauthorized user." });
+    return;
+  }
+
+  const { id: user_id } = req.user;
   const { conversation_id } = req.params;
+  console.log(conversation_id + "<<<conversation  id>>>" + user_id);
+  if (!conversation_id) {
+    res.status(400).json({ message: "Conversation ID is required." });
+    return;
+  }
   try {
     const contact_by_conversation = await MyContactModel.findOne({
       conversation_id: conversation_id,
       owner: user_id,
     });
     if (!contact_by_conversation) {
-      res.status(400).json({ message: "Conversation ID is required." });
+      res.status(400).json({ message: "Conversation ID is invalid." });
       return;
     }
 
@@ -72,8 +93,16 @@ export const summarizeConversation = async (req: Request, res: Response) => {
   }
 };
 
-export const addMessageToConversation = async (req: Request, res: Response) => {
-  const uuid = randomUUID();
+export const addMessageToConversation = async (
+  req: AuthenticatedRequest,
+  res: Response,
+) => {
+  if (!req.user) {
+    res.status(401).json({ message: "Unauthorized user." });
+    return;
+  }
+
+  const { id: user_id } = req.user;
   const { conversation_id } = req.params;
   const { senderId, content } = req.body;
 
@@ -83,23 +112,27 @@ export const addMessageToConversation = async (req: Request, res: Response) => {
   }
 
   try {
-    const new_message = await MyMessageModel.create({
-      content: content,
-      sender_id: senderId,
-    });
-
     const targetContact = await MyContactModel.findOne({
       conversation_id: conversation_id,
       owner: user_id,
     });
 
+    console.log(targetContact);
+
     if (targetContact) {
+      const new_message = await MyMessageModel.create({
+        content: content,
+        sender_id: senderId,
+      });
+
       targetContact.messages.push(new_message);
       await targetContact.save();
       console.log(targetContact);
-      res
-        .status(200)
-        .json({ message: "success message added", data: targetContact });
+
+      res.status(200).json({
+        message: "Message successfully added to conversation.",
+        data: targetContact,
+      });
     } else {
       res.status(404).json({ message: "Conversation or contact not found." });
     }
