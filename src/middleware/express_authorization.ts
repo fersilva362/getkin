@@ -33,6 +33,7 @@ export const auth_verification = (
     res.status(401).json({ message: "Invalid or expired token." });
     return;
   }
+
   console.log(user_data);
   next();
 };

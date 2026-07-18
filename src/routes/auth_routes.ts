@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { auth_login } from "../controllers/auth_controller";
-import { auth_verification } from "../middleware/express_authorization";
+import { auth_login, auth_register } from "../controllers/auth_controller";
 
 export const auth_route = Router();
 auth_route.post("/login", auth_login);
-auth_route.get("/login", auth_verification);
+auth_route.post("/register", auth_register);
