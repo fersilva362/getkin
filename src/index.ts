@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
-import { menuQAFlow } from "./genkit/main";
+import { menuQAFlow } from "./genkit/main.js";
 import { expressHandler } from "@genkit-ai/express";
-import contact_router from "./routes/contact_routes";
-import conversation_route from "./routes/conversations_routes";
-import { summarizer_route } from "./routes/summarize_routes";
-import { db_connection } from "./config/db_connection";
-import { auth_route } from "./routes/auth_routes";
+import contact_router from "./routes/contact_routes.js";
+import conversation_route from "./routes/conversations_routes.js";
+import { summarizer_route } from "./routes/summarize_routes.js";
+import { db_connection } from "./config/db_connection.js";
+import { auth_route } from "./routes/auth_routes.js";
 
 const app = express();
 

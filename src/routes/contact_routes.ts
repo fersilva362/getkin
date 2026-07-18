@@ -2,11 +2,11 @@ import { Router } from "express";
 import {
   addContact,
   fetchContacts,
-} from "../controllers/contact_controller.ts";
+} from "../controllers/contact_controller.js";
 import {
   auth_by_express,
   auth_verification,
-} from "../middleware/express_authorization.ts";
+} from "../middleware/express_authorization.js";
 
 const contact_router = Router();
 

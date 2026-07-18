@@ -2,8 +2,8 @@ import { Router } from "express";
 import {
   addMessageToConversation,
   fetchConversationByUserId,
-} from "../controllers/conversation_controller";
-import { auth_verification } from "../middleware/express_authorization";
+} from "../controllers/conversation_controller.js";
+import { auth_verification } from "../middleware/express_authorization.js";
 
 const conversation_route = Router();
 conversation_route.get(

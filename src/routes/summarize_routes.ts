@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { summarizeConversation } from "../controllers/conversation_controller";
+import { summarizeConversation } from "../controllers/conversation_controller.js";
 import {
   auth_by_express,
   auth_verification,
-} from "../middleware/express_authorization";
+} from "../middleware/express_authorization.js";
 
 export const summarizer_route = Router();
 

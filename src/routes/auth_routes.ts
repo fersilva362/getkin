@@ -3,7 +3,7 @@ import {
   auth_delete,
   auth_login,
   auth_register,
-} from "../controllers/auth_controller";
+} from "../controllers/auth_controller.js";
 
 export const auth_route = Router();
 auth_route.post("/login", auth_login);
