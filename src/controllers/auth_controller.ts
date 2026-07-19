@@ -52,7 +52,9 @@ export const auth_login = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({ message: "An internal server error occurred." });
+    res
+      .status(500)
+      .json({ message: "An internal server error occurred.", error });
   }
 };
 
