@@ -16,7 +16,7 @@ import { PDFParse } from "pdf-parse";
 import { readFile } from "fs/promises";
 import { chunk } from "llm-chunk";
 import { Document } from "genkit/retriever";
-import devLocalVectorstore from "@genkit-ai/dev-local-vectorstore";
+import { devLocalVectorstore } from "@genkit-ai/dev-local-vectorstore";
 import "dotenv/config";
 
 export const ai = genkit({
