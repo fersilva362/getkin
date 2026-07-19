@@ -39,7 +39,7 @@ export const auth_login = async (req: Request, res: Response) => {
 
     //CAMBIAR TOKEN EXPIRE
     var token = jwt.sign({ contactEmail, id, username }, JWT_SECRET, {
-      expiresIn: "300d",
+      expiresIn: "1d",
     });
 
     res.status(200).json({
