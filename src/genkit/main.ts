@@ -11,6 +11,7 @@ import {
   devLocalRetrieverRef,
 } from "@genkit-ai/dev-local-vectorstore";
 import path from "path";
+import "pdf-parse/worker";
 import { PDFParse } from "pdf-parse";
 import { readFile } from "fs/promises";
 import { chunk } from "llm-chunk";
