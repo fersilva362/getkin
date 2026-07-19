@@ -1,3 +1,9 @@
+if (typeof globalThis.DOMMatrix === "undefined") {
+  (globalThis as any).DOMMatrix = class DOMMatrix {};
+}
+if (typeof globalThis.ImageData === "undefined") {
+  (globalThis as any).ImageData = class ImageData {};
+}
 import { genkit, z } from "genkit";
 import { googleAI } from "@genkit-ai/google-genai";
 import {

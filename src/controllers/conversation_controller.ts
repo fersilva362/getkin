@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
+
 import { summarize_conversation_by_id } from "../genkit/summarize_conversations.js";
 import { MyContactModel, MyMessageModel } from "../models/mongo_db_models.js";
 import { AuthenticatedRequest } from "../middleware/express_authorization.js";
