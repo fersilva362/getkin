@@ -105,7 +105,11 @@ export const addMessageToConversation = async (
 
   const { id: user_id } = req.user;
   const { conversation_id } = req.params;
-  const { senderId, content } = req.body;
+  if (!req.body) {
+    res.status(400).json({ message: "Request body is missing." });
+    return;
+  }
+  const { senderId, content, conversationId } = req.body;
 
   if (!content || !senderId) {
     res.status(400).json({ message: "Sender ID and content are required." });
@@ -121,9 +125,12 @@ export const addMessageToConversation = async (
     console.log(targetContact);
 
     if (targetContact) {
+      targetContact.last_message_time = new Date().toISOString();
+      targetContact.last_message = content;
       const new_message = await MyMessageModel.create({
         content: content,
         sender_id: senderId,
+        conversation_id: conversationId,
       });
 
       targetContact.messages.push(new_message);

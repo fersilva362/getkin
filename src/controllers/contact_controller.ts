@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
-import { MyContactModel } from "../models/mongo_db_models.js";
+import { MyContactModel, MyUserModel } from "../models/mongo_db_models.js";
 import { AuthenticatedRequest } from "../middleware/express_authorization.js";
 //const user_id = "6a56b5b4fd0d20e3de9fc433";
 export const fetchContacts = async (
@@ -34,16 +34,31 @@ export const addContact = async (req: AuthenticatedRequest, res: Response) => {
   }
 
   const { id: user_id } = req.user;
+  if (!req.body) {
+    res.status(400).json({ message: "Request body is missing." });
+    return;
+  }
   const { contactEmail, username } = req.body;
+  if (!contactEmail || !username) {
+    res
+      .status(400)
+      .json({ message: "contactEmail and username are required." });
+    return;
+  }
+
+  const check_foreign_user = await MyUserModel.findOne({
+    contact_email: contactEmail,
+  });
+
+  if (!check_foreign_user) {
+    res
+      .status(400)
+      .json({ message: "your contact doesnt have an account in our server." });
+    return;
+  }
+  console.log(check_foreign_user);
 
   try {
-    if (!contactEmail || !username) {
-      res
-        .status(400)
-        .json({ message: "contactEmail and username are required." });
-      return;
-    }
-
     const existingContact = await MyContactModel.findOne({
       owner: user_id,
       contact_email: contactEmail,
@@ -52,6 +67,7 @@ export const addContact = async (req: AuthenticatedRequest, res: Response) => {
     if (existingContact) {
       res.status(400).json({
         message: "You already have a contact added with this email address.",
+        data: existingContact,
       });
       return;
     }
