@@ -7,6 +7,8 @@ A backend service built with Node.js, Express, TypeScript, and MongoDB, leveragi
 ## Features
 
 - **Structured AI Summarization:** Custom Genkit Flow (`summarize_conversation_by_id`) utilizing the `gemini-flash-lite-latest` model to distill text into clear summaries, action items, and priority evaluations.
+  🎯Indexing & Retrieval Flow (menuQAFlow): It indexes PDF content (skills.pdf) into a local vector store (menuQA) using gemini-embedding-001 embeddings. When triggered, it retrieves relevant passages using summary as a query and feeds them as ground context (docs) to gemini-flash-lite-latest to evaluate compliance or policy records. Summarization Flow (summarize_conversation_by_id): It takes chat messages, uses Genkit’s structured output schema to extract a summary, task list, and priority, and then invokes menuQAFlow to automatically evaluate the extracted summary against the indexed knowledge store before returning the complete result.
+
 - **Routing Architecture:** Modular architecture separating Controllers, Routes, and Data Models for scalable API expansions (Auth, Contacts, and Conversations).
 - **Database & Authentication:** Mongoose/MongoDB backend schema mappings integrated with JWT validation middleware.
 - **Document Processing:** Equipped with `pdf-parse` and `@napi-rs/canvas` handling capabilities for advanced pipeline ingestions.
