@@ -11,12 +11,10 @@ export const auth_by_express = (
   res: Response,
   next: NextFunction,
 ): void => {
-  console.log(req.headers);
   if (req.headers["authorization"] !== "tantan") {
     res.status(403).json({ error: "user authentication failed" });
     return;
   }
-  console.log("ok ");
   next();
 };
 export const auth_verification = (
@@ -38,8 +36,6 @@ export const auth_verification = (
       res.status(401).json({ message: "Invalid or expired token." });
       return;
     }
-
-    //console.log(JSON.stringify(user_data) + "user_data");
     req.user = user_data;
 
     next();

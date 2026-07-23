@@ -63,16 +63,7 @@ export const summarize_conversation_by_id = ai.defineFlow(
     }
 
     const text_evaluation = await menuQAFlow(output);
-    console.log(output);
     output.evaluation = text_evaluation;
     return output;
   },
 );
-
-/* conversation_id:
-  contact_email: 
-  owner: 
-  participant_name: 
-  last_message: 
-  last_message_time:
-  messages: { type: [MessageSchema], require: true, default: [] }, */

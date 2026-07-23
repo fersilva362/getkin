@@ -18,7 +18,6 @@ app.use("/", conversation_route);
 app.use("/", summarizer_route);
 app.use("/", auth_route);
 app.get("/", (req, res) => {
-  console.log("welcome");
   res.send("Welcome!");
 });
 db_connection();

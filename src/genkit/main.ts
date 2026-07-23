@@ -21,12 +21,9 @@ import "dotenv/config";
 
 export const ai = genkit({
   plugins: [
-    // googleAI provides the gemini-embedding-001 embedder
     googleAI({
       apiKey: process.env.GOOGLE_API_KEY,
     }),
-
-    // the local vector store requires an embedder to translate from text to vector
     devLocalVectorstore([
       {
         indexName: "menuQA",
@@ -65,19 +62,16 @@ export const indexMenu = ai.defineFlow(
     try {
       filePath = path.resolve(filePath);
       const pdfText = await ai.run("Extract Pdf", () => extractPdf(filePath));
-      console.log(pdfText);
       const chunkText = await ai.run("chunk-it", async () =>
         chunk(pdfText, chunkingConfig),
       );
       const documents = chunkText.map((text) =>
         Document.fromText(text, { filePath }),
       );
-      console.log(documents);
       await ai.index({
         indexer: menuPdfIndexer,
         documents,
       });
-      console.log("mmmm");
     } catch (error) {
       console.log(error);
     }
@@ -102,15 +96,15 @@ export const menuQAFlow = ai.defineFlow(
 
     const { text } = await ai.generate({
       model: googleAI.model("gemini-flash-lite-latest"),
-      prompt: `You are an operational evaluator. 
-Provide a clear, 1-2 sentence evaluation of the conversation summary based on the retrieved documents.
-DO NOT use meta-phrases like "Based on the provided information" or "The document states".
-If the documents do not contain relevant shift/role information, simply state: "No official policy record found for the referenced individual.
+      prompt: `You are an experienced human resources specialist tasked with analyzing workforce alignment in operational settings. Please evaluate whether the personnel allocations, assigned tasks, and shift schedules outlined in the summary accurately correspond with the designated roles and responsibilities detailed in the referenced document.
+Respond in 1 or 2 clear, direct sentences.
+Do not use phrases such as "Based on the provided information" or "The document states."
+If none of the individuals mentioned in the summary appear in the retrieved document, return exactly: "No official policy record found for the referenced individual."
+Otherwise, evaluate only the individuals mentioned in the summary using the retrieved document and ignore any individuals who are not present.
 
 Question: ${summary}`,
       docs,
     });
-    console.log(text);
     return text.replace(/\s+/g, " ");
   },
 );

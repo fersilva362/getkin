@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
 import { MyContactModel, MyUserModel } from "../models/mongo_db_models.js";
 import { AuthenticatedRequest } from "../middleware/express_authorization.js";
-//const user_id = "6a56b5b4fd0d20e3de9fc433";
 export const fetchContacts = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -13,7 +12,6 @@ export const fetchContacts = async (
   }
 
   const { id: user_id } = req.user;
-  console.log(user_id);
   try {
     const result = await MyContactModel.find({
       owner: user_id,
@@ -56,7 +54,6 @@ export const addContact = async (req: AuthenticatedRequest, res: Response) => {
       .json({ message: "your contact doesnt have an account in our server." });
     return;
   }
-  console.log(check_foreign_user);
 
   try {
     const existingContact = await MyContactModel.findOne({

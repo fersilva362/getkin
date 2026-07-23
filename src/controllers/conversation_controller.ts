@@ -5,8 +5,6 @@ import { summarize_conversation_by_id } from "../genkit/summarize_conversations.
 import { MyContactModel, MyMessageModel } from "../models/mongo_db_models.js";
 import { AuthenticatedRequest } from "../middleware/express_authorization.js";
 
-//const user_id = "6a56b5b4fd0d20e3de9fc433";
-
 export const fetchConversationByUserId = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -48,7 +46,6 @@ export const summarizeConversation = async (
 
   const { id: user_id } = req.user;
   const { conversation_id } = req.params;
-  console.log(conversation_id + "<<<conversation  id>>>" + user_id);
   if (!conversation_id) {
     res.status(400).json({ message: "Conversation ID is required." });
     return;
@@ -85,8 +82,6 @@ export const summarizeConversation = async (
       summarize_this_conversation,
     );
 
-    console.log(textSummarized);
-
     res.status(200).json({ data: textSummarized });
   } catch (error) {
     console.error("Error summarizing conversation:", error);
@@ -122,8 +117,6 @@ export const addMessageToConversation = async (
       owner: user_id,
     });
 
-    console.log(targetContact);
-
     if (targetContact) {
       targetContact.last_message_time = new Date().toISOString();
       targetContact.last_message = content;
@@ -135,7 +128,6 @@ export const addMessageToConversation = async (
 
       targetContact.messages.push(new_message);
       await targetContact.save();
-      console.log(targetContact);
 
       res.status(200).json({
         message: "Message successfully added to conversation.",

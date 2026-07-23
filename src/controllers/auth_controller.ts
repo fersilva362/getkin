@@ -42,7 +42,6 @@ export const auth_login = async (req: Request, res: Response) => {
     }
     const { id, username } = user_searched;
 
-    //CAMBIAR TOKEN EXPIRE
     var token = jwt.sign({ contactEmail, id, username }, JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -104,7 +103,7 @@ export const auth_register = async (req: Request, res: Response) => {
   }
 };
 
-/* Funcion para un role de administrador */
+/* Funcion para un role de administrador fer@ */
 export const auth_delete = async (req: AuthenticatedRequest, res: Response) => {
   if (!JWT_SECRET) {
     res.status(500).json({ message: "internal server error." });
