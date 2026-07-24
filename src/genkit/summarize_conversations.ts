@@ -53,7 +53,7 @@ export const summarize_conversation_by_id = ai.defineFlow(
   },
   async ({ messages, owner, participant_name }) => {
     const { output } = await ai.generate({
-      model: googleAI.model("gemini-3.1-flash-lite"),
+      model: googleAI.model("gemini-flash-latest"),
       prompt: `Summarize these messsages for user ${owner}: ${JSON.stringify(messages)}`,
       output: { schema: output_schema },
     });

@@ -95,7 +95,7 @@ export const menuQAFlow = ai.defineFlow(
     });
 
     const { text } = await ai.generate({
-      model: googleAI.model("gemini-flash-lite-latest"),
+      model: googleAI.model("gemini-3.1-flash-lite"),
       prompt: `You are an experienced human resources specialist tasked with analyzing workforce alignment in operational settings. Please evaluate whether the personnel allocations, assigned tasks, and shift schedules outlined in the summary accurately correspond with the designated roles and responsibilities detailed in the referenced document.
 Respond in 1 or 2 clear, direct sentences.
 Do not use phrases such as "Based on the provided information" or "The document states."
