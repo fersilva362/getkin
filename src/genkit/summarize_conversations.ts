@@ -61,9 +61,11 @@ export const summarize_conversation_by_id = ai.defineFlow(
     if (!output) {
       throw new Error("Model failed to generate structured summary.");
     }
+    console.log(output + " output in summarize conversations");
 
     const text_evaluation = await menuQAFlow(output);
     output.evaluation = text_evaluation;
+    console.log(text_evaluation + " output in menuQAFlow(output)");
     return output;
   },
 );
